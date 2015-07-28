@@ -2,10 +2,7 @@ package me.tailliez.timeline;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-
-public abstract class Range<V extends Comparable<V>> {
+public class Range<V extends Comparable<V>> {
 
     private Class<V> type = null;
 
@@ -17,7 +14,7 @@ public abstract class Range<V extends Comparable<V>> {
         this.end = end;
     }
 
-    public Class<V> getType() {
+    /*public Class<V> getType() {
         if (type == null) {
             Type t = getClass().getGenericSuperclass();
             ParameterizedType pt = (ParameterizedType) t;
@@ -25,16 +22,17 @@ public abstract class Range<V extends Comparable<V>> {
                     .getActualTypeArguments()[0];
         }
         return type;
-    }
+    }*/
 
-    public abstract Range<V> factory(Integer begin, Integer end);
+    //public abstract Range<V> factory(Integer begin, Integer end);
 
     /*public abstract V getNextValue(V value);
 
     public abstract V getPreviousValue(V Value);*/
 
     public V getNextValue(V value) {
-        if (Integer.class.equals(getType())) {
+        if (value == null) throw new NullPointerException();
+        if (value instanceof Integer) {
             Integer v = (Integer) value;
             return (V) Integer.valueOf(v + 1);
         }
@@ -42,7 +40,8 @@ public abstract class Range<V extends Comparable<V>> {
     }
 
     public V getPreviousValue(V value) {
-        if (Integer.class.equals(getType())) {
+        if (value == null) throw new NullPointerException();
+        if (value instanceof Integer) {
             Integer v = (Integer) value;
             return (V) Integer.valueOf(v - 1);
         }

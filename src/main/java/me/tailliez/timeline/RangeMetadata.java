@@ -35,6 +35,9 @@ public class RangeMetadata<T, R extends Range<V>, V extends Comparable<V>> {
     }
 
     public BiPredicate<T, T> getSameSerie() {
+        if (sameSerie == null) {
+            return (t, t2) -> true;
+        }
         return sameSerie;
     }
 }
