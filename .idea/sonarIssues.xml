@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="issues">
+    <option name="index">
+      <map>
+        <entry key="/Dummy.txt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../erp/erp-front/src/main/webapp/app/prices/agreementHeader/agreement-header-controller.js">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../erp/erp-front/src/main/webapp/app/prices/agreementHeader/agreement-header-detail-tab.html">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../erp/erp-front/src/main/webapp/app/prices/agreementHeader/agreement-header-detail-template.html">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../erp/erp-front/src/main/webapp/app/prices/agreementHeader/discount-model-detail-popup.html">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../erp/erp-front/src/main/webapp/app/prices/agreementHeader/discount-model-list-tab.html">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../erp/erp-front/src/main/webapp/app/prices/agreementHeader/pricing-agreement-list-tab.html">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../erp/erp-front/src/main/webapp/app/prices/prices-module.js">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../erp/erp-front/src/main/webapp/app/prices/pricingAgreement/pricing-agreement-detail-tab.html">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../erp/erp-front/src/main/webapp/app/prices/pricingAgreement/pricing-agreement-discount-list-tab.html">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../erp/erp-front/src/main/webapp/app/prices/vat/vat-link-edit-articles.html">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../erp/erp-front/src/main/webapp/home.html">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../erp/erp-front/src/test/javascript/agreement-header-controller-test.js">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../erp/erp-persistence/src/main/java/fr/biocbon/erp/persistence/company/dao/shop/ShopDaoImpl.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../erp/erp-persistence/src/main/java/fr/biocbon/erp/persistence/utils/CollectionsUtils.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../erp/erp-persistence/src/test/java/fr/biocbon/erp/persistence/utils/CollectionsUtilsTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/pom.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/me/tailliez/timeline/CollectionUtils.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/me/tailliez/timeline/CollectionUtilsTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/me/tailliez/timeline/DiffElement.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/me/tailliez/timeline/Entity.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/me/tailliez/timeline/Entity2.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/me/tailliez/timeline/Range.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/me/tailliez/timeline/RangeInteger.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/me/tailliez/timeline/RangeMetadata.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/me/tailliez/timeline/RangeUtils.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
