@@ -1,5 +1,7 @@
 package me.tailliez.timeline;
 
+import java.util.Objects;
+
 public class Entity2 {
 
 	private Integer id;
@@ -9,9 +11,9 @@ public class Entity2 {
 
 	private Integer data;
 	private static final  RangeMetadata<Entity2, Range<Integer>, Integer> rangeMetadata = new RangeMetadata<>(
-            Entity2::getRange, Entity2::setRange);
+            Entity2::getRange, Entity2::setRange, (Entity2 e1, Entity2 e2) -> e1 != null && e2 != null && Objects.equals(e1.getSerieId(), e2.getSerieId()));
 
-    public Entity2(int id, int serieId, Integer start, Integer end, Integer data) {
+    public Entity2(Integer id, int serieId, Integer start, Integer end, Integer data) {
 		super();
 		this.id = id;
 		this.serieId = serieId;
