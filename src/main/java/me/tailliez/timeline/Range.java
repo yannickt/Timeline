@@ -14,6 +14,11 @@ public class Range<V extends Comparable<V>> {
         this.end = end;
     }
 
+    public Range(Range<V> other) {
+        this.begin = other.begin;
+        this.end = other.end;
+    }
+
     /*public Class<V> getType() {
         if (type == null) {
             Type t = getClass().getGenericSuperclass();

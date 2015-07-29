@@ -14,12 +14,20 @@ public class Entity2 {
             Entity2::getRange, Entity2::setRange, (Entity2 e1, Entity2 e2) -> e1 != null && e2 != null && Objects.equals(e1.getSerieId(), e2.getSerieId()));
 
     public Entity2(Integer id, int serieId, Integer start, Integer end, Integer data) {
-		super();
-		this.id = id;
-		this.serieId = serieId;
-		this.range = new Range<Integer>(start,end);
-		this.data = data;
-	}
+        super();
+        this.id = id;
+        this.serieId = serieId;
+        this.range = new Range<Integer>(start,end);
+        this.data = data;
+    }
+
+    public Entity2(Entity2 obj) {
+        super();
+        this.id = obj.id;
+        this.serieId = obj.serieId;
+        this.range = new Range<Integer>(obj.range);
+        this.data = obj.data;
+    }
 
     public RangeMetadata<Entity2, Range<Integer>, Integer> getRangeMetadata() {
         return rangeMetadata;

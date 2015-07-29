@@ -52,7 +52,9 @@ public class RangeUtilsTest {
     @Test
     public void testAddRangeInInvalid() throws Exception {
         srcColl.add(entity_null_9);
-        Assertions.assertThatThrownBy(() -> {RangeUtils.addRange(srcColl, entity_25, Entity2::getRangeMetadata);}).isInstanceOf(IllegalArgumentException.class);
+        Assertions.assertThatThrownBy(() -> {
+            RangeUtils.addRange(srcColl, entity_25, Entity2::getRangeMetadata);
+        }).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
@@ -100,6 +102,55 @@ public class RangeUtilsTest {
                 .extracting("id", "range.begin", "range.end", "data")
                 .containsOnly(Tuple.tuple(2, 20, 24, 2), Tuple.tuple(null, 25, 29, 25), Tuple.tuple(3, 30, 39, 3), Tuple.tuple(4, 40, null, 4),
                         Tuple.tuple(22, 20, 29, 22), Tuple.tuple(23, 30, 39, 23));
+    }
+
+    @Test
+    public void testRemoveFirstRange() throws Exception {
+        srcColl.add(entity_30_39);
+        srcColl.add(entity_40___);
+        RangeUtils.removeRange(srcColl, entity_30_39, Entity2::getRangeMetadata);
+        Assertions.assertThat(srcColl)
+                .hasSize(1)
+                .extracting("id", "range.begin", "range.end", "data")
+                .containsOnly(Tuple.tuple(4, 40, null, 4));
+    }
+
+    @Test
+    public void testRemoveLastRange() throws Exception {
+        srcColl.add(entity_30_39);
+        srcColl.add(entity_40___);
+        RangeUtils.removeRange(srcColl, entity_40___, Entity2::getRangeMetadata);
+        Assertions.assertThat(srcColl)
+                .hasSize(1)
+                .extracting("id", "range.begin", "range.end", "data")
+                .containsOnly(Tuple.tuple(3, 30, null, 3));
+    }
+
+    @Test
+    public void testRemoveBetweenRange() throws Exception {
+        srcColl.add(entity_20_29);
+        srcColl.add(entity_30_39);
+        srcColl.add(entity_40___);
+        RangeUtils.removeRange(srcColl, entity_30_39, Entity2::getRangeMetadata);
+        Assertions.assertThat(srcColl)
+                .hasSize(2)
+                .extracting("id", "range.begin", "range.end", "data")
+                .containsOnly(Tuple.tuple(2, 20, 39, 2), Tuple.tuple(4, 40, null, 4));
+    }
+
+    @Test
+    public void testRemoveRangeInSerie() throws Exception {
+        srcColl.add(entity_20_29);
+        srcColl.add(entity_30_39);
+        srcColl.add(entity_40___);
+        srcColl.add(entity_20_29_serie_2);
+        srcColl.add(entity_30_39_serie_2);
+        RangeUtils.removeRange(srcColl, entity_30_39, Entity2::getRangeMetadata);
+        Assertions.assertThat(srcColl)
+                .hasSize(4)
+                .extracting("id", "range.begin", "range.end", "data")
+                .containsOnly(Tuple.tuple(2, 20, 39, 2), Tuple.tuple(4, 40, null, 4),
+                    Tuple.tuple(22, 20, 29, 22), Tuple.tuple(23, 30, 39, 23));
     }
 
 }
