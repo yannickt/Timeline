@@ -1,13 +1,6 @@
 package me.tailliez.timeline;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -29,7 +22,7 @@ public class RangeUtils {
         List<E> list = (coll instanceof List) ? (List<E>) coll : new ArrayList<>(coll);
         for (ListIterator<E> i = list.listIterator(); i.hasNext(); ) {
             E entity = i.next();
-            // On passe les plages d'une séries de données différentes
+            // On passe les plages d'une sï¿½ries de donnï¿½es diffï¿½rentes
             if (!metadata.getSameSerie().test(entity, newEntity)) continue;
             // On recherche la plage la plus petite pour le cas d'un ajout devant.
             Range<V> entityRange = metadata.getRangeGetter().apply(entity);
@@ -37,7 +30,7 @@ public class RangeUtils {
                 minBegin = entityRange.getBegin();
                 foundMin = true;
             }
-            // Si on a une plage qui contient la valeur de début a insérer
+            // Si on a une plage qui contient la valeur de dï¿½but a insï¿½rer
             if (entityRange.isValueInRange(newEntityRange.getBegin())) {
                 // On la modifie pour la terminer avec la nouvelle
                 newEntityRange.setEnd(entityRange.getEnd());
@@ -47,7 +40,7 @@ public class RangeUtils {
                 newAdded = true;
             }
         }
-        // Si la nouvelle plage doit être mis devant toutes les autres
+        // Si la nouvelle plage doit ï¿½tre mis devant toutes les autres
         if (!newAdded) {
             if (minBegin != null) {
                 newEntityRange.setEnd(newEntityRange.getPreviousValue(minBegin));
@@ -80,33 +73,45 @@ public class RangeUtils {
         final V endOld = oldEntityRange.getEnd();
         final V previousBeginOld =  oldEntityRange.getPreviousValue(oldEntityRange.getBegin());
 
-        // On ne traite que les éléments de la série
+        // On ne traite que les ï¿½lï¿½ments de la sï¿½rie
         Collection<E> serie = coll.stream().filter(e -> metadata.getSameSerie().test(e, oldEntity)).collect(Collectors.toList());
 
-        // On retire l'élément
+        // On retire l'ï¿½lï¿½ment
         coll.remove(oldEntity);
 
-        // On prolonge les éléments précédents jusqu'a la fin du supprimé
+        // On prolonge les ï¿½lï¿½ments prï¿½cï¿½dents jusqu'a la fin du supprimï¿½
         serie.stream().filter(e-> Objects.equals(metadata.getRangeGetter().apply(e).getEnd(), previousBeginOld)).forEach(e -> metadata.getRangeGetter().apply(e).setEnd(endOld));
 
         return coll;
     }
 
-    public static <E, V extends Comparable<V>> Collection<E> checkRange(final Collection<E> coll, final Function<E, RangeMetadata<E, Range<V>, V>> metadataSupplier) {
+    public static <E, V extends Comparable<V>> boolean checkRange(final Collection<E> coll, final Function<E, RangeMetadata<E, Range<V>, V>> metadataSupplier) {
         if (coll == null) throw new NullPointerException("Collection is null");
 
-        Map<V, List<E>> dispatchBySeries = new HashMap<>();
+        Map<E, List<E>> dispatchBySeries = new HashMap<>();
 
-        //coll.stream().collect(Collectors.groupingBy());
+        final RangeMetadata<E, Range<V>, V> metadata = coll.stream().filter(e->e!=null).map(metadataSupplier).findAny().orElseThrow(()->new NullPointerException("Range metadata is null"));
 
         for(Iterator<E> i = coll.iterator();i.hasNext();) {
             E entity = i.next();
-
+            Optional<E> key = dispatchBySeries.keySet().stream().filter(e -> metadata.getSameSerie().test(entity, e)).findAny();
+            if (!key.isPresent()) {
+                key = Optional.of(entity);
+                dispatchBySeries.put(entity, new ArrayList<E>());
+            }
+            dispatchBySeries.get(key.get()).add(entity);
         }
 
+        dispatchBySeries.values().stream().forEach(series->series.stream().map(metadata.getRangeGetter()).sorted((o1, o2) -> o1.getBegin().compareTo(o2.getBegin())).reduce(
+                (Range<V> r1, Range<V> r2) -> { if (r1.getEnd() == r2.getPreviousValue(r2.getBegin())) {
+                    return new Range(r1.getBegin(), r2.getEnd());
+                    }
+                else {
+                    throw new IllegalArgumentException("Ranges no consecutives");
+                }
+                }
+        ));
 
-
-
-        return coll;
+        return true;
     }
 }
