@@ -2,7 +2,7 @@ package me.tailliez.timeline;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-public class Range<V extends Comparable<V>> {
+public abstract class Range<V extends Comparable<V>> {
 
     private Class<V> type = null;
 
@@ -63,10 +63,28 @@ public class Range<V extends Comparable<V>> {
         return begin.compareTo(value) <= 0;
     }
 
+    public boolean isValueAfterBegin(V value) {
+        if (begin == null) return true;
+        if (value == null) return false;
+        return begin.compareTo(value) < 0;
+    }
+
     public boolean isValueBeforeOrEqualsEnd(V value) {
         if (end == null) return true;
         if (value == null) return false;
         return value.compareTo(end) <= 0;
+    }
+
+    public boolean isValueBeforeEnd(V value) {
+        if (end == null) return true;
+        if (value == null) return false;
+        return value.compareTo(end) < 0;
+    }
+
+    public boolean isConsecutive(Range r1, Range r2) {
+        if ( r1 == null || r2 == null) throw new NullPointerException();
+        return getPreviousValue((V) r2.getBegin()).compareTo((V) r1.getEnd()) == 0
+                || getPreviousValue((V) r1.getBegin()).compareTo((V) r2.getEnd()) == 0;
     }
 
     public V getBegin() {
