@@ -150,7 +150,52 @@ public class RangeUtilsTest {
                 .hasSize(4)
                 .extracting("id", "range.begin", "range.end", "data")
                 .containsOnly(Tuple.tuple(2, 20, 40, 2), Tuple.tuple(4, 40, null, 4),
-                    Tuple.tuple(22, 20, 30, 22), Tuple.tuple(23, 30, 40, 23));
+                        Tuple.tuple(22, 20, 30, 22), Tuple.tuple(23, 30, 40, 23));
+    }
+
+    @Test
+    public void testCheckRangeConsecutiveWithZero() {
+        srcColl.add(entity_20_30);
+        Assertions.assertThat(RangeUtils.checkRangeConsecutive(srcColl, Entity2::getRangeMetadata)).isEqualTo(true);
+    }
+
+    @Test
+    public void testCheckRangeConsecutiveWithOne() {
+        srcColl.add(entity_20_30);
+        Assertions.assertThat(RangeUtils.checkRangeConsecutive(srcColl, Entity2::getRangeMetadata)).isEqualTo(true);
+    }
+
+    @Test
+    public void testCheckRangeConsecutiveWithTwoConsecutive() {
+        srcColl.add(entity_10_20);
+        srcColl.add(entity_20_30);
+        Assertions.assertThat(RangeUtils.checkRangeConsecutive(srcColl, Entity2::getRangeMetadata)).isEqualTo(true);
+    }
+
+    @Test
+    public void testCheckRangeConsecutiveWithTwoUnconsecutive() {
+        srcColl.add(entity_10_20);
+        srcColl.add(entity_30_40);
+        Assertions.assertThat(RangeUtils.checkRangeConsecutive(srcColl, Entity2::getRangeMetadata)).isEqualTo(false);
+    }
+
+    @Test
+    public void testCheckRangeConsecutiveWithTwoConsecutiveTwoSerie() {
+        srcColl.add(entity_10_20);
+        srcColl.add(entity_20_30);
+        srcColl.add(entity_20_30_serie_2);
+        Assertions.assertThat(RangeUtils.checkRangeConsecutive(srcColl, Entity2::getRangeMetadata)).isEqualTo(true);
+        srcColl.add(entity_30_40_serie_2);
+        Assertions.assertThat(RangeUtils.checkRangeConsecutive(srcColl, Entity2::getRangeMetadata)).isEqualTo(true);
+    }
+
+    @Test
+    public void testCheckRangeConsecutiveWithTwoUnconsecutiveTwoSerie() {
+        srcColl.add(entity_10_20);
+        srcColl.add(entity_30_40);
+        srcColl.add(entity_20_30_serie_2);
+        srcColl.add(entity_30_40_serie_2);
+        Assertions.assertThat(RangeUtils.checkRangeConsecutive(srcColl, Entity2::getRangeMetadata)).isEqualTo(false);
     }
 
 }

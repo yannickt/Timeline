@@ -1,8 +1,10 @@
 package me.tailliez.timeline;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+// Interface  org.hibernate.usertype.UserCollectionType
 
 public class RangeUtils {
 
@@ -85,12 +87,12 @@ public class RangeUtils {
         return coll;
     }
 
-    public static <E, V extends Comparable<V>> boolean checkRangeConsecutive(final Collection<E> coll, final Function<E, RangeMetadata<E, Range<V>, V>> metadataSupplier) {
+    public static <E, R extends Range<V>, V extends Comparable<V>> boolean checkRangeConsecutive(final Collection<E> coll, final Function<E, RangeMetadata<E, R, V>> metadataSupplier) {
         if (coll == null) throw new NullPointerException("Collection is null");
 
         Map<E, List<E>> dispatchBySeries = new HashMap<>();
 
-        final RangeMetadata<E, Range<V>, V> metadata = coll.stream().filter(e->e!=null).map(metadataSupplier).findAny().orElseThrow(()->new NullPointerException("Range metadata is null"));
+        final RangeMetadata<E, R, V> metadata = coll.stream().filter(e->e!=null).map(metadataSupplier).findAny().orElseThrow(()->new NullPointerException("Range metadata is null"));
 
         for(Iterator<E> i = coll.iterator();i.hasNext();) {
             E entity = i.next();
@@ -101,17 +103,26 @@ public class RangeUtils {
             }
             dispatchBySeries.get(key.get()).add(entity);
         }
-/*
-        dispatchBySeries.values().stream().forEach(series->series.stream().map(metadata.getRangeGetter()).sorted((o1, o2) -> o1.getBegin().compareTo(o2.getBegin())).reduce(
-                (Range<V> r1, Range<V> r2) -> { if (r1.getEnd() == r2.getPreviousValue(r2.getBegin())) {
-                    //return new Range(r1.getBegin(), r2.getEnd());
+
+        final AtomicBoolean consecutive = new AtomicBoolean(true);
+        dispatchBySeries.values().stream().forEach(serie->
+        {
+            if ( serie.size()>1 ) {
+                List sortedRanges = serie.stream().map(metadata.getRangeGetter()).sorted((o1, o2) -> o1.getBegin().compareTo(o2.getBegin())).collect(Collectors.toList());
+                Iterator<R> i = sortedRanges.iterator();
+                R current = i.next();
+                R next;
+                while ( i.hasNext() ) {
+                    next = i.next();
+                    if ( !current.isConsecutive(current,next) ) {
+                        consecutive.set(false);
+                        break;
                     }
-                else {
-                    throw new IllegalArgumentException("Ranges no consecutives");
+                    current = next;
                 }
-                }
-        ));
-*/
-        return true;
+            }
+        });
+        return consecutive.get();
     }
+
 }

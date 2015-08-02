@@ -63,6 +63,12 @@ public abstract class Range<V extends Comparable<V>> {
         return begin.compareTo(value) <= 0;
     }
 
+    public boolean isValueBeforeBegin(V value) {
+        if (begin == null) return true;
+        if (value == null) return false;
+        return begin.compareTo(value) > 0;
+    }
+
     public boolean isValueAfterBegin(V value) {
         if (begin == null) return true;
         if (value == null) return false;
@@ -75,16 +81,36 @@ public abstract class Range<V extends Comparable<V>> {
         return value.compareTo(end) <= 0;
     }
 
+    public boolean isValueAfterOrEqualsEnd(V value) {
+        if (end == null) return true;
+        if (value == null) return false;
+        return value.compareTo(end) >= 0;
+    }
+
     public boolean isValueBeforeEnd(V value) {
         if (end == null) return true;
         if (value == null) return false;
         return value.compareTo(end) < 0;
     }
 
+    public boolean isValueAfterEnd(V value) {
+        if (end == null) return true;
+        if (value == null) return false;
+        return value.compareTo(end) > 0;
+    }
+
     public boolean isConsecutive(Range r1, Range r2) {
         if ( r1 == null || r2 == null) throw new NullPointerException();
-        return getPreviousValue((V) r2.getBegin()).compareTo((V) r1.getEnd()) == 0
-                || getPreviousValue((V) r1.getBegin()).compareTo((V) r2.getEnd()) == 0;
+        return r2.getBegin().compareTo(r1.getEnd()) == 0
+                || r1.getBegin().compareTo(r2.getEnd()) == 0;
+    }
+
+    @Override
+    public String toString() {
+        return "Range{" +
+                "end=" + end +
+                ", begin=" + begin +
+                '}';
     }
 
     public V getBegin() {
