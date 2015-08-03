@@ -42,7 +42,7 @@ public class RangeUtils {
                 newAdded = true;
             }
         }
-        // Si la nouvelle plage doit être mis devant toutes les autres
+        // Si la nouvelle plage doit être mise devant toutes les autres
         if (!newAdded) {
             if (minBegin != null) {
                 newEntityRange.setEnd(minBegin);

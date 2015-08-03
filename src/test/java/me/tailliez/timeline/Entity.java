@@ -2,18 +2,18 @@ package me.tailliez.timeline;
 
 import java.util.Objects;
 
-public class Entity2 {
+public class Entity {
 
 	private Integer id;
-	private RangeIE<Integer> range;
+	private Range<Integer> range;
 
 	private int serieId;
 
 	private Integer data;
-	private static final RangeMetadata<Entity2, RangeIE<Integer>, Integer> rangeMetadata = new RangeMetadata<>(
-            Entity2::getRange, Entity2::setRange, (Entity2 e1, Entity2 e2) -> e1 != null && e2 != null && Objects.equals(e1.getSerieId(), e2.getSerieId()));
+	private static final RangeMetadata<Entity, Range<Integer>, Integer> rangeMetadata = new RangeMetadata<>(
+            Entity::getRange, Entity::setRange, (Entity e1, Entity e2) -> e1 != null && e2 != null && Objects.equals(e1.getSerieId(), e2.getSerieId()));
 
-    public Entity2(Integer id, int serieId, Integer start, Integer end, Integer data) {
+    public Entity(Integer id, int serieId, Integer start, Integer end, Integer data) {
         super();
         this.id = id;
         this.serieId = serieId;
@@ -21,29 +21,23 @@ public class Entity2 {
         this.data = data;
     }
 
-    public Entity2(Entity2 obj) {
+    public Entity(Entity obj) {
         super();
         this.id = obj.id;
         this.serieId = obj.serieId;
-        this.range = new RangeIE<Integer>(obj.range);
+        this.range = new Range<Integer>(obj.range);
         this.data = obj.data;
     }
 
-    public RangeMetadata<Entity2, RangeIE<Integer>, Integer> getRangeMetadata() {
-        return rangeMetadata;
+    public RangeMetadata<Entity, Range<Integer>, Integer> getRangeMetadata() {
+		return rangeMetadata;
     }
-
-	/*public static <V extends Comparable<V>> RangeMetadata<Entity2, Range<V>, V> getRangeMetadata() {
-		RangeMetadata<Entity2, Range<Integer>, Integer> metadata = new RangeMetadata<Entity2, Range<Integer>, Integer>(
-				Entity2::getRange, Entity2::setRange);
-		return metadata;
-	}*/
 
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
-		Entity2 entity = (Entity2) o;
+		Entity entity = (Entity) o;
 		return (id != null ? id.equals(entity.id) : entity.id != null);
 	}
 
@@ -60,11 +54,11 @@ public class Entity2 {
 		this.id = id;
 	}
 
-	public RangeIE<Integer> getRange() {
+	public Range<Integer> getRange() {
 		return range;
 	}
 
-	public void setRange(RangeIE<Integer> range) {
+	public void setRange(Range<Integer> range) {
 		this.range = range;
 	}
 

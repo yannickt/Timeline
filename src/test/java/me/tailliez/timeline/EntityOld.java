@@ -1,6 +1,6 @@
 package me.tailliez.timeline;
 
-public class Entity {
+public class EntityOld {
 
 	private Integer id;
 	private Integer start;
@@ -10,7 +10,7 @@ public class Entity {
 	
 	private Integer data;
 
-	public Entity(int id, int serieId, Integer start, Integer end, Integer data) {
+	public EntityOld(int id, int serieId, Integer start, Integer end, Integer data) {
 		super();
 		this.id = id;
 		this.serieId = serieId;
@@ -23,8 +23,8 @@ public class Entity {
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
-		Entity entity = (Entity) o;
-		return (id != null ? id.equals(entity.id) : entity.id != null);
+		EntityOld entityOld = (EntityOld) o;
+		return (id != null ? id.equals(entityOld.id) : entityOld.id != null);
 	}
 
 	@Override
